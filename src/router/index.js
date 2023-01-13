@@ -172,14 +172,14 @@ export const asyncRoutes = [
   },
 
   {
-    path: '/user',
+    path: '/carousel',
     component: Layout,
     children: [
       {
         path: 'complex-table',
         component: () => import('@/views/user/user'),
         name: 'ComplexTable',
-        meta: { title: '用户管理', icon: 'user', noCache: true }
+        meta: { title: '轮播图管理', icon: 'user', noCache: true }
       }
     ]
   },
