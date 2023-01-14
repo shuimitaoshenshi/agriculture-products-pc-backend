@@ -174,12 +174,24 @@ export const asyncRoutes = [
   {
     path: '/carousel',
     component: Layout,
+    redirect: '/example/list',
+    name: 'Example',
+    meta: {
+      title: '轮播图设置',
+      icon: 'el-icon-s-help'
+    },
     children: [
       {
-        path: 'complex-table',
-        component: () => import('@/views/user/user'),
-        name: 'ComplexTable',
-        meta: { title: '轮播图管理', icon: 'user', noCache: true }
+        path: 'create',
+        component: () => import('@/views/carousel/CreateCarousel'),
+        name: 'CreateCarousel',
+        meta: { title: '轮播图添加', icon: 'edit' }
+      },
+      {
+        path: 'list',
+        component: () => import('@/views/carousel/CarouselList'),
+        name: 'CarouselList',
+        meta: { title: '轮播图列表', icon: 'list'}
       }
     ]
   },
