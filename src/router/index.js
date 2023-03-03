@@ -174,8 +174,8 @@ export const asyncRoutes = [
   {
     path: '/carousel',
     component: Layout,
-    redirect: '/example/list',
-    name: 'Example',
+    redirect: '/carousel/list',
+    name: 'Carousel',
     meta: {
       title: '轮播图设置',
       icon: 'el-icon-s-help'
@@ -192,6 +192,18 @@ export const asyncRoutes = [
         component: () => import('@/views/carousel/CarouselList'),
         name: 'CarouselList',
         meta: { title: '轮播图列表', icon: 'list'}
+      }
+    ]
+  },
+  {
+    path: '/order',
+    component: Layout,
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/order/Order.vue'),
+        name: 'OrderlList',
+        meta: { title: '订单管理', icon: 'list'}
       }
     ]
   },
