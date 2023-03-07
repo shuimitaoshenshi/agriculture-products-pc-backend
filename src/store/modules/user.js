@@ -35,6 +35,8 @@ const actions = {
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
+        // const { data } = {"code":20000,"data":{"token":"admin-token"}}
+         // return {"code":20000,"data":{"token":"admin-token"}}
         commit('SET_TOKEN', data.token)
         setToken(data.token)
         resolve()
@@ -48,8 +50,19 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
+        // 根据state.token返回 role 信息
+        // if(state.token==='admin-token')
+        // {console.log(111);
+        // response = {"code":20000,"data":{"roles":["admin"],"introduction":"I am a super administrator","avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif","name":"Super Admin"}}}
+        // else if(state.token==='editor-token')
+        // response = {"code":20000,"data":{"roles":["editor"],"introduction":"I am an editor","avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif","name":"Normal Editor"}}
+        // else if(state.token==='super-token')
+        // response = {"code":20000,"data":{"roles":["super"],"introduction":"I am an super","avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif","name":"Normal super"}}
+        // else if(state.token==='editor-token')
+        // response = {"code":20000,"data":{"roles":["editor"],"introduction":"I am an editor","avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif","name":"Normal Editor"}}
         const { data } = response
-
+  // return {"code":20000,"data":{"roles":["admin"],"introduction":"I am a super administrator","avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif","name":"Super Admin"}}
+// console.log(response);
         if (!data) {
           reject('Verification failed, please Login again.')
         }
@@ -105,12 +118,44 @@ const actions = {
   // dynamically modify permissions
   async changeRoles({ commit, dispatch }, role) {
     const token = role + '-token'
-
     commit('SET_TOKEN', token)
     setToken(token)
+    // const { roles } = await dispatch('getInfo')
+    // 根据state.token返回 role 信息
+    let response = ''
+ if(state.token==='admin-token')
+ {console.log(111);
+ response = {"code":20000,"data":{"roles":["admin"],"introduction":"I am a super administrator","avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif","name":"Super Admin"}}}
+ else if(state.token==='editor-token')
+ response = {"code":20000,"data":{"roles":["editor"],"introduction":"I am an editor","avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif","name":"Normal Editor"}}
+ else if(state.token==='super-token')
+ response = {"code":20000,"data":{"roles":["super"],"introduction":"I am an super","avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif","name":"Normal super"}}
+ else if(state.token==='first-token')
+ response = {"code":20000,"data":{"roles":["first"],"introduction":"I am an editor","avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif","name":"Normal Editor"}}
+ else if(state.token==='second-token')
+ response = {"code":20000,"data":{"roles":["second"],"introduction":"I am an editor","avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif","name":"Normal Editor"}}
+ else if(state.token==='third-token')
+ response = {"code":20000,"data":{"roles":["third"],"introduction":"I am an editor","avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif","name":"Normal Editor"}}
+ else if(state.token==='shelf-token')
+ response = {"code":20000,"data":{"roles":["shelf"],"introduction":"I am an editor","avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif","name":"Normal Editor"}}
+ const { data } = response
+// return {"code":20000,"data":{"roles":["admin"],"introduction":"I am a super administrator","avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif","name":"Super Admin"}}
+// console.log(response);
+ if (!data) {
+   reject('Verification failed, please Login again.')
+ }
 
-    const { roles } = await dispatch('getInfo')
+ const { roles, name, avatar, introduction } = data
 
+ // roles must be a non-empty array
+ if (!roles || roles.length <= 0) {
+   reject('getInfo: roles must be a non-null array!')
+ }
+
+ commit('SET_ROLES', roles)
+ commit('SET_NAME', name)
+ commit('SET_AVATAR', avatar)
+ commit('SET_INTRODUCTION', introduction)
     resetRouter()
 
     // generate accessible routes map based on roles
