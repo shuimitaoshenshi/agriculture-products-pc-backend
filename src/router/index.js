@@ -208,6 +208,30 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/distributor',
+    component: Layout,
+    redirect: '/distributor/list',
+    name: 'Distributor',
+    meta: {
+      title: '经销商管理',
+      icon: 'el-icon-s-help'
+    },
+    children: [
+      {
+        path: 'add',
+        component: () => import('@/views/distributor/CreateDistributor.vue'),
+        name: 'DistributorList',
+        meta: { title: '添加经销商', icon: 'edit'}
+      },
+      {
+        path: 'list',
+        component: () => import('@/views/distributor/DistributorList.vue'),
+        name: 'DistributorList',
+        meta: { title: '下级经销商', icon: 'list'}
+      }
+    ]
+  },
+  {
     path: '/icon',
     component: Layout,
     children: [
